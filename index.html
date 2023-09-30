@@ -30,6 +30,8 @@
 <body style="background-color: transparent;">
 	<!-- 3D content for your site: -->
 
+	<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
+
    
 
 	<model-viewer camera-controls touch-action="pan-y" autoplay ar ar-modes="webxr scene-viewer" scale="0.2 0.2 0.2" shadow-intensity="1" src="scene.gltf" alt=""></model-viewer>
@@ -37,15 +39,15 @@
 
 	<!-- 💁 Include both scripts below to support all browsers! -->
 
-	<!-- Loads <model-viewer> for modern browsers: -->
 	  <script type="module"
 		  src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
 	  </script>
 
-	<!-- Loads <model-viewer> for old browsers like IE11: -->
 	<script nomodule
       src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js">
 	</script>
+
+	 -->
 </body>
 
 </html>
