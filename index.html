@@ -19,11 +19,16 @@
             <a-asset-item id="model" src="scene.gltf"></a-asset-item>
         </a-assets>
 
-        <!-- Create AR entity and load the 3D model -->
-        <a-entity id="ar-marker"></a-entity>
-
-        <!-- Open the camera -->
-        <a-entity camera></a-entity>
+        <!-- Create AR marker entity and load the 3D model -->
+        <a-marker gps-entity-place>
+            <a-entity id="ar-marker">
+                <a-entity
+                    gltf-model="#model"
+                    scale="1 1 1"
+                ></a-entity>
+                <a-entity camera></a-entity>
+            </a-entity>
+        </a-marker>
 
         <script>
             // Get user's current location using Geolocation API
@@ -33,19 +38,13 @@
                     const longitude = position.coords.longitude;
                     const altitude = position.coords.altitude || 0;
 
-                    // Create AR entity and load the 3D model
-                    const arEntity = document.getElementById('ar-marker');
-                    arEntity.setAttribute('gps-entity-place', {
+                    // Update AR marker position based on user's location
+                    const arMarker = document.getElementById('ar-marker');
+                    arMarker.setAttribute('gps-entity-place', {
                         latitude: latitude,
                         longitude: longitude,
                         elevation: altitude
                     });
-
-                    const modelEntity = document.createElement('a-entity');
-                    modelEntity.setAttribute('gltf-model', '#model');
-                    modelEntity.setAttribute('scale', '1 1 1');
-
-                    arEntity.appendChild(modelEntity);
                 },
                 (error) => {
                     console.error('Error getting user location:', error);
