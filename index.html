@@ -18,28 +18,31 @@
         embedded
         arjs='sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;'>
 
-        <!-- Use hit-testing to place the model -->
-        <a-entity id="ar-marker" gltf-model="scene.gltf" rotation="0 0 0" scale="0.015 0.015 0.015" hit-testing></a-entity>
+        <a-entity id="ar-marker" gltf-model="scene.gltf" rotation="0 0 0" scale="0.05 0.05 0.05" gps-entity-place="latitude: 0; longitude: 0; elevation: 0;" animation-mixer/>
 
         <a-camera gps-camera rotation-reader></a-camera>
-        
-    </a-scene>
 
-    <!-- Include hit-testing script -->
-    <script>
-        AFRAME.registerComponent('hit-testing', {
-            init: function () {
-                this.el.addEventListener('touchstart', this.handleTouch.bind(this));
-            },
-            handleTouch: function (event) {
-                // Perform hit-testing and place the object
-                var hitResults = event.detail.intersection;
-                if (hitResults) {
-                    var position = hitResults.point;
-                    this.el.object3D.position.copy(position);
+        <script>
+            // Get user's current location using Geolocation API
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    const altitude = position.coords.altitude || 0;
+
+                    // Update AR marker position based on user's location
+                    const arMarker = document.getElementById('ar-marker');
+                    arMarker.setAttribute('gps-entity-place', {
+                        latitude: latitude + 10,
+                        longitude: longitude + 10,
+                        elevation: altitude 
+                    });
+                },
+                (error) => {
+                    console.error('Error getting user location:', error);
                 }
-            }
-        });
-    </script>
+            );
+        </script>
+    </a-scene>
 </body>
 </html>
