@@ -6,7 +6,7 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.3.2/aframe/build/aframe-ar.js"></script>
     <!-- Add any additional libraries or stylesheets here -->
-    <title>Instant AR Experience</title>
+    <title>Dynamic Location-based AR</title>
 </head>
 <body>
     <a-scene
@@ -20,17 +20,38 @@
         </a-assets>
 
         <!-- Create AR entity and load the 3D model -->
-        <a-entity
-            gps-entity-place
-            latitude="0"
-            longitude="0"
-            elevation="0"
-            scale="1 1 1"
-            gltf-model="#model"
-        ></a-entity>
+        <a-entity id="ar-marker"></a-entity>
 
         <!-- Open the camera -->
         <a-entity camera></a-entity>
+
+        <script>
+            // Get user's current location using Geolocation API
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    const altitude = position.coords.altitude || 0;
+
+                    // Create AR entity and load the 3D model
+                    const arEntity = document.getElementById('ar-marker');
+                    arEntity.setAttribute('gps-entity-place', {
+                        latitude: latitude,
+                        longitude: longitude,
+                        elevation: altitude
+                    });
+
+                    const modelEntity = document.createElement('a-entity');
+                    modelEntity.setAttribute('gltf-model', '#model');
+                    modelEntity.setAttribute('scale', '1 1 1');
+
+                    arEntity.appendChild(modelEntity);
+                },
+                (error) => {
+                    console.error('Error getting user location:', error);
+                }
+            );
+        </script>
     </a-scene>
 </body>
 </html>
