@@ -6,7 +6,7 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.3.2/aframe/build/aframe-ar.js"></script>
     <!-- Add any additional libraries or stylesheets here -->
-    <title>Dynamic Location-based AR</title>
+    <title>Instant AR Experience</title>
 </head>
 <body>
     <a-scene
@@ -19,40 +19,18 @@
             <a-asset-item id="model" src="scene.gltf"></a-asset-item>
         </a-assets>
 
-        <a-entity id="ar-marker"></a-entity>
+        <!-- Create AR entity and load the 3D model -->
+        <a-entity
+            gps-entity-place
+            latitude="0"
+            longitude="0"
+            elevation="0"
+            scale="1 1 1"
+            gltf-model="#model"
+        ></a-entity>
 
-        <a-camera-static></a-camera-static>
-
-        <script>
-            // Get user's current location using Geolocation API
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const latitude = position.coords.latitude;
-                    const longitude = position.coords.longitude;
-                    const altitude = position.coords.altitude || 0;
-
-                    // Update AR entity position based on user's location
-                    const arEntity = document.getElementById('ar-marker');
-                    arEntity.setAttribute('gps-entity-place', {
-                        latitude: latitude,
-                        longitude: longitude,
-                        elevation: altitude
-                    });
-
-                    // Create 3D model entity
-                    const modelEntity = document.createElement('a-entity');
-                    modelEntity.setAttribute('gltf-model', '#model');
-                    modelEntity.setAttribute('scale', '1 1 1');
-
-                    // Append the model entity to the AR entity
-                    arEntity.appendChild(modelEntity);
-                },
-                (error) => {
-                    console.error('Error getting user location:', error);
-                }
-            );
-        </script>
+        <!-- Open the camera -->
+        <a-entity camera></a-entity>
     </a-scene>
 </body>
 </html>
-
