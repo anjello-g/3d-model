@@ -28,17 +28,13 @@
       <a-marker gps-entity-place>
         <a-entity
           gltf-model="#model"
-          scale="1 1 1"
+          scale="0.1 0.1 0.1" <!-- Adjust the scale as needed -->
+          position="0 0 0" <!-- Adjust the position as needed -->
           look-at="[gps-camera]"
         ></a-entity>
         <a-entity camera gps-camera rotation-reader></a-entity>
       </a-marker>
 
-      <a-text
-        value="No markers around"
-        look-at="[gps-camera]"
-        scale="5 5 5"
-      ></a-text>
     </a-scene>
   </body>
 </html>
