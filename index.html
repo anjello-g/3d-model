@@ -26,8 +26,8 @@
             // Get user's current location using Geolocation API
             navigator.geolocation.getCurrentPosition(
                 (position) => {
-                    const latitude = position.coords.latitude ; // Adjust as needed
-                    const longitude = position.coords.longitude + 20; // Adjust as needed
+                    const latitude = position.coords.latitude + 20; // Adjust as needed
+                    const longitude = position.coords.longitude; // Adjust as needed
                     const altitude = position.coords.altitude || 0;
 
                     // Update AR marker position based on user's location
